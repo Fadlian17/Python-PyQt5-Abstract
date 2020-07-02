@@ -1,31 +1,15 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QAbstractTableModel
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import sys
 import json
 import os
 
 
-class TableModel(QAbstractTableModel):
-    def __init__(self, data):
-        super(TableModel, self).__init__()
-        self.dataTable = data
-
-    def data(self, index, role):
-        if role == Qt.DisplayRole:
-            return self.dataTable[index.row()][index.column()]
-
-    def rowCount(self, index):
-        return len(self.dataTable)
-
-    def columnCount(self, index):
-        return len(self.dataTable[0])
-
-
 class myApp(QMainWindow):
     def __init__(self):
         super(myApp, self).__init__()
-        self.open = open("json/data_contact.json", "r")
+        self.open = open("data_contact.json", "r")
         self.userContact = json.loads(self.open.read())
         self.mainUI()
         self.mainLayout()
@@ -79,7 +63,7 @@ class firstTab(QWidget):
     def __init__(self):
         super(firstTab, self).__init__()
         self.dataFavorite = {}
-        self.open = open("json/data_contact.json", "r")
+        self.open = open("data_contact.json", "r")
         self.userContact = json.loads(self.open.read())
         self.FavoriteTable()
         self.mainUI()
@@ -99,7 +83,7 @@ class firstTab(QWidget):
             if self.dataFavorite['nama'] == i['nama']:
                 i['favorite'] = 1
         toJson = json.dumps(self.userContact, indent=4)
-        fwrite = open('json/data_contact.json', 'w')
+        fwrite = open('data_contact.json', 'w')
         fwrite.write(toJson)
 
     # fetch favorite in list
@@ -139,7 +123,7 @@ class firstTab(QWidget):
 class secondTab(QWidget):
     def __init__(self):
         super(secondTab, self).__init__()
-        self.open = open("json/data_contact.json", "r")
+        self.open = open("data_contact.json", "r")
         self.userContact = json.loads(self.open.read())
         self.dataFavorite = {}
         self.favoriteContact()
@@ -193,7 +177,7 @@ class secondTab(QWidget):
             if self.dataFavorite['nama'] == i['nama']:
                 i['favorite'] = 0
         toJson = json.dumps(self.userContact, indent=4)
-        fwrite = open('json/data_contact.json', 'w')
+        fwrite = open('data_contact.json', 'w')
         fwrite.write(toJson)
 
 # Add New Contact to Contact List
@@ -204,7 +188,7 @@ class thirdTab(QWidget):
         super(thirdTab, self).__init__()
         self.mainUI()
         self.setLayout(self.layout)
-        self.open = open("json/data_contact.json", "r")
+        self.open = open("data_contact.json", "r")
         self.userContact = json.loads(self.open.read())
 
     # logic add
@@ -231,7 +215,7 @@ class thirdTab(QWidget):
         params = {"nama": name, "nomor_hp": phone, "favorite": 0}
         self.userContact.append(params)
         toJson = json.dumps(self.userContact, indent=4)
-        fwrite = open('json/data_contact.json', 'w')
+        fwrite = open('data_contact.json', 'w')
         fwrite.write(toJson)
 
 
